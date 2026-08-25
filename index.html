@@ -84,6 +84,8 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const DOCUMENT_SETTINGS={vatRegistered:true,vatRate:20,quoteValidDays:30};
 let cloudReady=false;
 let cloudSyncing=false;
+// Attach authentication immediately so login still works even if a later screen render has an error.
+setTimeout(()=>initCloud(),0);
 const money=n=>'£'+(Number(n)||0).toFixed(2);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const todayISO=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
@@ -183,6 +185,5 @@ document.getElementById('nav').addEventListener('click',e=>{const b=e.target.clo
 renderToday();
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
 
-initCloud();
 </script>
 </body></html>
